@@ -1,17 +1,17 @@
 //TODO make same thing with new Intl.DateTimeFormat(undefined, {month: 'long',} ?
 export const months = [
-  'Janvier',
-  'Février',
-  'Mars',
-  'Avril',
-  'Mai',
-  'Juin',
-  'Juillet',
-  'Aout',
-  'Septembre',
-  'Octobre',
-  'Novembre',
-  'Décembre',
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ]
 
 export const dayOfWeek = (year, month, monthLength) => {
@@ -30,16 +30,16 @@ export const dayOfWeek = (year, month, monthLength) => {
 }
 
 export const getNumberOfDays = (year, month) => {
-  const monthStart = new Date(year, month, 1)
-  const monthEnd = new Date(year, month + 1, 1)
-  const monthLength = Math.round(
-    (monthEnd - monthStart) / (1000 * 60 * 60 * 24)
-  )
-  return monthLength
+  var isLeap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)
+  return [31, isLeap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month]
 }
 
 //alternative
 // export const getNumberOfDays = (year, month) => {
-//   var isLeap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)
-//   return [31, isLeap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month]
+//   const monthStart = new Date(year, month, 1)
+//   const monthEnd = new Date(year, month + 1, 1)
+//   const monthLength = Math.round(
+//     (monthEnd - monthStart) / (1000 * 60 * 60 * 24)
+//   )
+//   return monthLength
 // }
