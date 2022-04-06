@@ -1,6 +1,8 @@
 import { useState, useRef } from 'react'
-import { dayOfWeek, getNumberOfDays, months } from './utils'
+import { dayOfWeek, getNumberOfDays, months, formatUTCDate } from './utils'
 import '../lib/datePicker.scss'
+
+import Row from './WeekRow'
 
 const DatePicker = () => {
   const date = new Date()
@@ -9,18 +11,20 @@ const DatePicker = () => {
   const [selectedMonth, modifyMonth] = useState(date.getMonth())
   const [selectedYear, modifyYear] = useState(date.getFullYear())
 
+  const input = useRef(null)
   const monthInput = useRef(null)
   const yearInput = useRef(null)
 
   let monthLength = getNumberOfDays(selectedYear, selectedMonth)
-  let weekDays = dayOfWeek(selectedYear, selectedMonth, monthLength)
+  let { startMonth } = dayOfWeek(selectedYear, selectedMonth, monthLength)
 
   const [displayContainer, setDisplay] = useState(false)
+
   /**
    * toggle date picker display on or outside input focus
    */
   const display = () => {
-    setDisplay(true) //for test only
+    setDisplay(true) //for test only, then toggle
   }
 
   /**
@@ -46,19 +50,16 @@ const DatePicker = () => {
   }
 
   const today = () => {
-    console.log(date)
     modifyDate(date)
     modifyMonth(date.getMonth())
     modifyYear(date.getFullYear())
-
-    console.log("it's today")
   }
 
   let yearOptions = []
-  for (let i = 1950; i < 2050; i++) {
+  for (let year = 1950; year < 2050; year++) {
     yearOptions.push(
-      <option key={i} value={i}>
-        {i}
+      <option key={year} value={year}>
+        {year}
       </option>
     )
   }
@@ -69,9 +70,10 @@ const DatePicker = () => {
       <input
         id="date-of-birth"
         required
-        defaultValue="1983-06-18"
+        defaultValue={formatUTCDate(date)}
         onFocus={display}
         onBlur={display}
+        ref={input}
       />
       {displayContainer && (
         <div className="container">
@@ -115,7 +117,50 @@ const DatePicker = () => {
                 className="next"
               />
             </div>
-            <div className="calendar"></div>
+            <div className="calendar">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Sun</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <Row firstDay={startMonth} start={0} forwardedRef={input} />
+                  </tr>
+                  <tr>
+                    <Row firstDay={startMonth} start={7} forwardedRef={input} />
+                  </tr>
+                  <tr>
+                    <Row
+                      firstDay={startMonth}
+                      start={14}
+                      forwardedRef={input}
+                    />
+                  </tr>
+                  <tr>
+                    <Row
+                      firstDay={startMonth}
+                      start={21}
+                      forwardedRef={input}
+                    />
+                  </tr>
+                  <tr>
+                    <Row
+                      firstDay={startMonth}
+                      start={28}
+                      forwardedRef={input}
+                    />
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}
@@ -124,9 +169,3 @@ const DatePicker = () => {
 }
 
 export default DatePicker
-
-// <p>Year: {selectedYear}</p>
-
-// <p>Numbre of days in month: {monthLength}</p>
-// <p>First day of month: {weekDays.firstWeekDay}</p>
-// <p>Last day of month: {weekDays.lastWeekDay}</p>

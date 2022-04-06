@@ -15,18 +15,9 @@ export const months = [
 ]
 
 export const dayOfWeek = (year, month, monthLength) => {
-  let startDay = new Date(year, month, 1)
-  let endDay = new Date(year, month, monthLength)
-
-  let firstWeekDay = new Intl.DateTimeFormat(undefined, {
-    weekday: 'long',
-  }).format(startDay)
-
-  let lastWeekDay = new Intl.DateTimeFormat(undefined, {
-    weekday: 'long',
-  }).format(endDay)
-
-  return { firstWeekDay, lastWeekDay }
+  let startMonth = new Date(year, month, 1)
+  let endMonth = new Date(year, month, monthLength)
+  return { startMonth, endMonth }
 }
 
 export const getNumberOfDays = (year, month) => {
@@ -43,3 +34,18 @@ export const getNumberOfDays = (year, month) => {
 //   )
 //   return monthLength
 // }
+
+export const formatUTCDate = (date) => {
+  const formatDate =
+    `${date.getUTCMonth().toLocaleString('en-US', {
+      minimumIntegerDigits: 2,
+    })}` +
+    '/' +
+    `${date.getUTCDate().toLocaleString('en-US', {
+      minimumIntegerDigits: 2,
+    })}` +
+    '/' +
+    `${date.getUTCFullYear()}`
+
+  return formatDate
+}
