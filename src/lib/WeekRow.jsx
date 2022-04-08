@@ -1,8 +1,13 @@
 import { formatUTCDate } from './utils'
 
-const Row = ({ firstDay, start, forwardedRef }) => {
-  const weekNbr = (start + 7) / 7
-
+const Row = ({
+  firstDay,
+  start,
+  forwardedRef,
+  setDisplay,
+  currentDay,
+  selectedMonth,
+}) => {
   let week = []
 
   for (let day = start; day <= start + 6; day++) {
@@ -16,7 +21,14 @@ const Row = ({ firstDay, start, forwardedRef }) => {
     week.push(
       <td
         key={day}
-        className={`week${weekNbr}`}
+        className={
+          `${currentDay.getMonth()}/${currentDay.getDate()}` ===
+          `${UTCDate.getMonth()}/${UTCDate.getDate()}`
+            ? 'current'
+            : selectedMonth !== UTCDate.getMonth()
+            ? 'other_month'
+            : ''
+        }
         onClick={() => onClick(UTCDate)}
       >
         <div>{UTCDate.getUTCDate()}</div>
@@ -27,6 +39,7 @@ const Row = ({ firstDay, start, forwardedRef }) => {
   const onClick = (UTCDate) => {
     const formatedDate = formatUTCDate(UTCDate)
     forwardedRef.current.value = formatedDate
+    setDisplay(false)
   }
 
   return week

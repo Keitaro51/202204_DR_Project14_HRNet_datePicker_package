@@ -4,7 +4,7 @@ import '../lib/datePicker.scss'
 
 import Row from './WeekRow'
 
-const DatePicker = () => {
+const DatePicker = ({ forId = 'date-of-birth' }) => {
   const date = new Date()
 
   const [selectedDate, modifyDate] = useState(date)
@@ -16,7 +16,11 @@ const DatePicker = () => {
   const yearInput = useRef(null)
 
   let monthLength = getNumberOfDays(selectedYear, selectedMonth)
-  let { startMonth } = dayOfWeek(selectedYear, selectedMonth, monthLength)
+  let { startMonth, endMonth } = dayOfWeek(
+    selectedYear,
+    selectedMonth,
+    monthLength
+  )
 
   const [displayContainer, setDisplay] = useState(false)
 
@@ -24,7 +28,7 @@ const DatePicker = () => {
    * toggle date picker display on or outside input focus
    */
   const display = () => {
-    setDisplay(true) //for test only, then toggle
+    setDisplay(true) //TODO for test only, then toggle
   }
 
   /**
@@ -64,11 +68,21 @@ const DatePicker = () => {
     )
   }
 
+  //FIXME
+  /**
+   * 5 very specific cases when month don't have 5 week rows but 4 or 6 (ex: fev2020, fev2026, fev2032, july2022 and oct2022)
+   */
+  const nbrOfRows = () => {
+    console.log(endMonth.getDate())
+    console.log(endMonth.getDay())
+    return 42
+  }
+
   return (
     <>
-      <label htmlFor="date-of-birth">Date of Birth</label>
+      <label htmlFor={forId}>Date of Birth</label>
       <input
-        id="date-of-birth"
+        id={forId}
         required
         defaultValue={formatUTCDate(date)}
         onFocus={display}
@@ -86,7 +100,6 @@ const DatePicker = () => {
               <button onClick={today} className="today" />
               <div className="month">
                 <select
-                  id="month"
                   name="month"
                   key={selectedMonth}
                   defaultValue={selectedMonth}
@@ -102,7 +115,6 @@ const DatePicker = () => {
               </div>
               <div className="year">
                 <select
-                  id="year"
                   name="year"
                   key={selectedYear}
                   defaultValue={selectedYear}
@@ -132,16 +144,33 @@ const DatePicker = () => {
                 </thead>
                 <tbody>
                   <tr>
-                    <Row firstDay={startMonth} start={0} forwardedRef={input} />
+                    <Row
+                      firstDay={startMonth}
+                      start={0}
+                      forwardedRef={input}
+                      setDisplay={setDisplay}
+                      currentDay={date}
+                      selectedMonth={selectedMonth}
+                    />
                   </tr>
                   <tr>
-                    <Row firstDay={startMonth} start={7} forwardedRef={input} />
+                    <Row
+                      firstDay={startMonth}
+                      start={7}
+                      forwardedRef={input}
+                      setDisplay={setDisplay}
+                      currentDay={date}
+                      selectedMonth={selectedMonth}
+                    />
                   </tr>
                   <tr>
                     <Row
                       firstDay={startMonth}
                       start={14}
                       forwardedRef={input}
+                      setDisplay={setDisplay}
+                      currentDay={date}
+                      selectedMonth={selectedMonth}
                     />
                   </tr>
                   <tr>
@@ -149,6 +178,9 @@ const DatePicker = () => {
                       firstDay={startMonth}
                       start={21}
                       forwardedRef={input}
+                      setDisplay={setDisplay}
+                      currentDay={date}
+                      selectedMonth={selectedMonth}
                     />
                   </tr>
                   <tr>
@@ -156,6 +188,9 @@ const DatePicker = () => {
                       firstDay={startMonth}
                       start={28}
                       forwardedRef={input}
+                      setDisplay={setDisplay}
+                      currentDay={date}
+                      selectedMonth={selectedMonth}
                     />
                   </tr>
                 </tbody>

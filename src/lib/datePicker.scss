@@ -49,38 +49,36 @@ button {
 .month {
   width: 100px;
   text-align: right;
-  display: inline;
-  position: relative;
-  z-index: 9999;
-  margin: 0;
-  padding: 5px 3px;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: bold;
-  background-color: #fff;
-  float: left;
-  // width: 182px;
-  // text-align: center;
-  cursor: pointer;
+  
 }
 
 .year {
   width: 48px;
   margin-left: 5px;
+  text-align: center;
+}
+
+.month, .year{
+  font-size: 14px;
+  line-height: 20px;
+  background-color: #fff;
+  margin: 0;
+  padding: 5px 3px;
   display: inline;
   position: relative;
   z-index: 9999;
-  margin: 0;
-  padding: 5px 3px;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: bold;
-  background-color: #fff;
   float: left;
-  width: 182px;
-  text-align: center;
-  cursor: pointer;
+  & select{
+    outline:0px;
+    border:0px none;
+    font-family: "Helvetica Neue", Helvetica;
+    font-weight: 700;
+    &:hover{
+      text-decoration: underline;
+    }
+  }
 }
+
 
 .prev,
 .next,
@@ -117,4 +115,60 @@ button {
   float: left;
   background-position: -70px 0;
   margin-left: 5px;
+}
+
+.calendar {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  clear: both;
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  } 
+  th {
+    font-weight: 700;
+    text-align: center;
+    color: #999;
+    cursor: default;
+    background: #f1f1f1;
+    width: 14.2857142%;
+    border: 1px solid #ddd;
+    font-size: 12px;
+    vertical-align: middle;
+    padding: 0;
+    border-collapse: collapse;
+    height: 25px;
+  }
+  td{
+    width: 14.2857142%;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    color: #666;
+    font-size: 12px;
+    text-align: right;
+    vertical-align: middle;
+    padding: 0;
+    border-collapse: collapse;
+    cursor: pointer;
+    height: 25px;
+    &:hover{
+      color: #fff !important;
+      background: #ff8000 !important;
+      box-shadow: none !important;
+    }
+    &.other_month{
+      opacity: 0.5;
+      cursor: default;
+    }
+    &.current{
+      background: #33aaff;
+      box-shadow: #178fe5 0 1px 3px 0 inset;
+      color: #fff;
+      font-weight: 700;
+    }
+    & > div {
+      padding-right: 5px;
+    }
+  }
 }
