@@ -16,7 +16,7 @@ const DatePicker = ({ forId = 'date-of-birth' }) => {
   const yearInput = useRef(null)
 
   let monthLength = getNumberOfDays(selectedYear, selectedMonth)
-  let { startMonth, endMonth } = dayOfWeek(
+  let { startMonth, nbrOfRows } = dayOfWeek(
     selectedYear,
     selectedMonth,
     monthLength
@@ -24,11 +24,15 @@ const DatePicker = ({ forId = 'date-of-birth' }) => {
 
   const [displayContainer, setDisplay] = useState(false)
 
-  /**
-   * toggle date picker display on or outside input focus
-   */
-  const display = () => {
-    setDisplay(true) //TODO for test only, then toggle
+  const onBlur = (e) => {
+    if (
+      e.relatedTarget !== null &&
+      e.relatedTarget.classList.contains('ignore_blur')
+    ) {
+      input.current.focus()
+    } else {
+      setDisplay(false)
+    }
   }
 
   /**
@@ -68,16 +72,6 @@ const DatePicker = ({ forId = 'date-of-birth' }) => {
     )
   }
 
-  //FIXME
-  /**
-   * 5 very specific cases when month don't have 5 week rows but 4 or 6 (ex: fev2020, fev2026, fev2032, july2022 and oct2022)
-   */
-  const nbrOfRows = () => {
-    console.log(endMonth.getDate())
-    console.log(endMonth.getDay())
-    return 42
-  }
-
   return (
     <>
       <label htmlFor={forId}>Date of Birth</label>
@@ -85,26 +79,27 @@ const DatePicker = ({ forId = 'date-of-birth' }) => {
         id={forId}
         required
         defaultValue={formatUTCDate(date)}
-        onFocus={display}
-        onBlur={display}
+        onClick={() => setDisplay(!displayContainer)}
+        onBlur={onBlur}
         ref={input}
       />
       {displayContainer && (
-        <div className="container">
+        <div className="container ignore_blur" tabIndex="0">
           <div className="datepicker">
             <div className="monthpicker">
               <button
                 onClick={() => change('month', 'decrement')}
-                className="prev"
+                className="prev ignore_blur"
               />
-              <button onClick={today} className="today" />
-              <div className="month">
+              <button onClick={today} className="today ignore_blur" />
+              <div className="month ignore_blur">
                 <select
                   name="month"
                   key={selectedMonth}
                   defaultValue={selectedMonth}
                   onChange={() => change('month')}
                   ref={monthInput}
+                  className="ignore_blur"
                 >
                   {months.map((month, index) => (
                     <option key={index} value={index}>
@@ -120,13 +115,14 @@ const DatePicker = ({ forId = 'date-of-birth' }) => {
                   defaultValue={selectedYear}
                   onChange={() => change('year')}
                   ref={yearInput}
+                  className="ignore_blur"
                 >
                   {yearOptions}
                 </select>
               </div>
               <button
                 onClick={() => change('month', 'increment')}
-                className="next"
+                className="next ignore_blur"
               />
             </div>
             <div className="calendar">
@@ -183,16 +179,31 @@ const DatePicker = ({ forId = 'date-of-birth' }) => {
                       selectedMonth={selectedMonth}
                     />
                   </tr>
-                  <tr>
-                    <Row
-                      firstDay={startMonth}
-                      start={28}
-                      forwardedRef={input}
-                      setDisplay={setDisplay}
-                      currentDay={date}
-                      selectedMonth={selectedMonth}
-                    />
-                  </tr>
+                  {nbrOfRows > 4 && (
+                    <tr>
+                      <Row
+                        firstDay={startMonth}
+                        start={28}
+                        forwardedRef={input}
+                        setDisplay={setDisplay}
+                        currentDay={date}
+                        selectedMonth={selectedMonth}
+                      />
+                    </tr>
+                  )}
+
+                  {nbrOfRows > 5 && (
+                    <tr>
+                      <Row
+                        firstDay={startMonth}
+                        start={34}
+                        forwardedRef={input}
+                        setDisplay={setDisplay}
+                        currentDay={date}
+                        selectedMonth={selectedMonth}
+                      />
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>

@@ -22,8 +22,8 @@ const Row = ({
       <td
         key={day}
         className={
-          `${currentDay.getMonth()}/${currentDay.getDate()}` ===
-          `${UTCDate.getMonth()}/${UTCDate.getDate()}`
+          `${currentDay.getMonth()}/${currentDay.getDate()}/${currentDay.getFullYear()}` ===
+          `${UTCDate.getMonth()}/${UTCDate.getDate()}/${UTCDate.getFullYear()}`
             ? 'current'
             : selectedMonth !== UTCDate.getMonth()
             ? 'other_month'
