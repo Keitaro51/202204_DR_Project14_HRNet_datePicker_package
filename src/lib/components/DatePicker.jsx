@@ -1,17 +1,23 @@
-import { useState, useRef } from 'react'
-import { dayOfWeek, getNumberOfDays, months, formatUTCDate } from './utils'
-import '../lib/datePicker.scss'
+import React, { useState, useRef } from 'react'
+import {
+  dayOfWeek,
+  getNumberOfDays,
+  months,
+  formatUTCDate,
+} from '../utils/utils'
+import '../components/datePicker.scss'
 
-import Row from './WeekRow'
+import Row from '../components/WeekRow'
 
-const DatePicker = ({ forId = 'date-of-birth' }) => {
+const DatePicker = ({ forId = 'date-of-birth', content = 'Date of Birth' }) => {
   const date = new Date()
 
   const [selectedDate, modifyDate] = useState(date)
   const [selectedMonth, modifyMonth] = useState(date.getMonth())
   const [selectedYear, modifyYear] = useState(date.getFullYear())
 
-  const input = useRef(null)
+  const input = document.getElementById(`${forId}`)
+
   const monthInput = useRef(null)
   const yearInput = useRef(null)
 
@@ -29,7 +35,7 @@ const DatePicker = ({ forId = 'date-of-birth' }) => {
       e.relatedTarget !== null &&
       e.relatedTarget.classList.contains('ignore_blur')
     ) {
-      input.current.focus()
+      input.focus()
     } else {
       setDisplay(false)
     }
@@ -64,7 +70,7 @@ const DatePicker = ({ forId = 'date-of-birth' }) => {
   }
 
   let yearOptions = []
-  for (let year = 1950; year < 2050; year++) {
+  for (let year = 1950; year < 2051; year++) {
     yearOptions.push(
       <option key={year} value={year}>
         {year}
@@ -73,15 +79,14 @@ const DatePicker = ({ forId = 'date-of-birth' }) => {
   }
 
   return (
-    <>
-      <label htmlFor={forId}>Date of Birth</label>
+    <React.Fragment>
+      <label htmlFor={forId}>{content}</label>
       <input
         id={forId}
         required
         defaultValue={formatUTCDate(date)}
         onClick={() => setDisplay(!displayContainer)}
         onBlur={onBlur}
-        ref={input}
       />
       {displayContainer && (
         <div className="container ignore_blur" tabIndex="0">
@@ -210,7 +215,7 @@ const DatePicker = ({ forId = 'date-of-birth' }) => {
           </div>
         </div>
       )}
-    </>
+    </React.Fragment>
   )
 }
 

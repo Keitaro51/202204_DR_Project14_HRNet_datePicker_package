@@ -14,7 +14,7 @@ export const months = [
 ]
 
 /**
- * dertemination of some usefull informations for the selected month
+ * deteremination of some usefull informations for the selected month
  *
  * @param   {number}  year         selected year
  * @param   {number}  month        selected month

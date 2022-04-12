@@ -1,4 +1,4 @@
-import { formatUTCDate } from './utils'
+import { formatUTCDate } from '../utils/utils'
 
 const Row = ({
   firstDay,
@@ -38,7 +38,8 @@ const Row = ({
 
   const onClick = (UTCDate) => {
     const formatedDate = formatUTCDate(UTCDate)
-    forwardedRef.current.value = formatedDate
+    console.log(forwardedRef)
+    forwardedRef.value = formatedDate
     setDisplay(false)
   }
 
