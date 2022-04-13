@@ -38,7 +38,6 @@ const Row = ({
 
   const onClick = (UTCDate) => {
     const formatedDate = formatUTCDate(UTCDate)
-    console.log(forwardedRef)
     forwardedRef.value = formatedDate
     setDisplay(false)
   }
