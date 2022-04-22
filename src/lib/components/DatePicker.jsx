@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, forwardRef } from 'react'
 import {
   dayOfWeek,
   getNumberOfDays,
@@ -6,10 +6,14 @@ import {
   formatUTCDate,
 } from '../utils/utils'
 import '../components/datePicker.scss'
+import variables from '../components/datePicker.scss'
 
 import Row from '../components/WeekRow'
 
-const DatePicker = ({ forId = 'date-of-birth', content = 'Date of Birth' }) => {
+const DatePicker = (
+  { forId = 'date-of-birth', content = 'Date of Birth' },
+  ref
+) => {
   const date = new Date()
 
   const [selectedDate, modifyDate] = useState(date)
@@ -29,13 +33,13 @@ const DatePicker = ({ forId = 'date-of-birth', content = 'Date of Birth' }) => {
   )
 
   const [displayContainer, setDisplay] = useState(false)
-
   const onBlur = (e) => {
     if (
       e.relatedTarget !== null &&
       e.relatedTarget.classList.contains('ignore_blur')
     ) {
       input.focus()
+      //setDisplay(true)
     } else {
       setDisplay(false)
     }
@@ -85,19 +89,28 @@ const DatePicker = ({ forId = 'date-of-birth', content = 'Date of Birth' }) => {
         id={forId}
         required
         defaultValue={formatUTCDate(date)}
-        onClick={() => setDisplay(!displayContainer)}
+        onClick={() => setDisplay(true)}
         onBlur={onBlur}
+        ref={ref}
       />
       {displayContainer && (
-        <div className="container ignore_blur" tabIndex="0">
-          <div className="datepicker">
-            <div className="monthpicker">
+        <div
+          className={`${variables.prefix}container ignore_blur`}
+          tabIndex="0"
+        >
+          <div className={`${variables.prefix}datePicker`}>
+            <div className={`${variables.prefix}monthPicker`}>
               <button
+                type="button"
                 onClick={() => change('month', 'decrement')}
-                className="prev ignore_blur"
+                className={`${variables.prefix}prev ignore_blur`}
               />
-              <button onClick={today} className="today ignore_blur" />
-              <div className="month ignore_blur">
+              <button
+                type="button"
+                onClick={today}
+                className={`${variables.prefix}today ignore_blur`}
+              />
+              <div className={`${variables.prefix}month ignore_blur`}>
                 <select
                   name="month"
                   key={selectedMonth}
@@ -113,7 +126,7 @@ const DatePicker = ({ forId = 'date-of-birth', content = 'Date of Birth' }) => {
                   ))}
                 </select>
               </div>
-              <div className="year">
+              <div className={`${variables.prefix}year`}>
                 <select
                   name="year"
                   key={selectedYear}
@@ -126,11 +139,12 @@ const DatePicker = ({ forId = 'date-of-birth', content = 'Date of Birth' }) => {
                 </select>
               </div>
               <button
+                type="button"
                 onClick={() => change('month', 'increment')}
-                className="next ignore_blur"
+                className={`${variables.prefix}next ignore_blur`}
               />
             </div>
-            <div className="calendar">
+            <div className={`${variables.prefix}calendar`}>
               <table>
                 <thead>
                   <tr>
@@ -219,4 +233,4 @@ const DatePicker = ({ forId = 'date-of-birth', content = 'Date of Birth' }) => {
   )
 }
 
-export default DatePicker
+export default forwardRef(DatePicker)

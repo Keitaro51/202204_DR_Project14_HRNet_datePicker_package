@@ -1,3 +1,4 @@
+import React from 'react'
 import { formatUTCDate } from '../utils/utils'
 
 const Row = ({
