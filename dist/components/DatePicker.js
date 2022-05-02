@@ -214,7 +214,7 @@ var DatePicker = function DatePicker(_ref, ref) {
     selectedMonth: selectedMonth
   })), nbrOfRows > 5 && /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement(_WeekRow.default, {
     firstDay: startMonth,
-    start: 34,
+    start: 35,
     forwardedRef: input,
     setDisplay: setDisplay,
     currentDay: date,

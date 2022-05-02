@@ -1,6 +1,6 @@
 {
   "name": "oc_p14_hrnet_datepicker",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": false,
   "module": "dist/index.js",
   "files": [

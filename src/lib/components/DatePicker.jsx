@@ -215,7 +215,7 @@ const DatePicker = (
                     <tr>
                       <Row
                         firstDay={startMonth}
-                        start={34}
+                        start={35}
                         forwardedRef={input}
                         setDisplay={setDisplay}
                         currentDay={date}
