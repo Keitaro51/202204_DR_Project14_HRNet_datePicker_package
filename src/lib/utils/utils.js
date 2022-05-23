@@ -18,11 +18,11 @@ export const months = [
  *
  * @param   {number}  year         selected year
  * @param   {number}  month        selected month
- * @param   {number}  monthLength  number of day in month
  *
  * @return  {object}               date instances of the first and last days of month, and nbr of rows to display
  */
-export const dayOfWeek = (year, month, monthLength) => {
+export const dayOfWeek = (year, month) => {
+  let monthLength = getNumberOfDays(year, month)
   let startMonth = new Date(year, month, 1)
   let endMonth = new Date(year, month, monthLength)
   const nbrOfRows = rows(startMonth, endMonth, monthLength)

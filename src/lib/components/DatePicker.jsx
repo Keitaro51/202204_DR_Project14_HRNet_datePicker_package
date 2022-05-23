@@ -1,10 +1,5 @@
 import React, { useState, useRef, forwardRef } from 'react'
-import {
-  dayOfWeek,
-  getNumberOfDays,
-  months,
-  formatUTCDate,
-} from '../utils/utils'
+import { dayOfWeek, months, formatUTCDate } from '../utils/utils'
 import '../components/datePicker.scss'
 import variables from '../components/datePicker.scss'
 
@@ -25,12 +20,7 @@ const DatePicker = (
   const monthInput = useRef(null)
   const yearInput = useRef(null)
 
-  let monthLength = getNumberOfDays(selectedYear, selectedMonth)
-  let { startMonth, nbrOfRows } = dayOfWeek(
-    selectedYear,
-    selectedMonth,
-    monthLength
-  )
+  let { startMonth, nbrOfRows } = dayOfWeek(selectedYear, selectedMonth)
 
   const [displayContainer, setDisplay] = useState(false)
   const onBlur = (e) => {
